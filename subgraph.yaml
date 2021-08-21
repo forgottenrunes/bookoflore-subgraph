@@ -1,0 +1,38 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: BookOfLore
+    network: rinkeby
+    source:
+      address: "0xdEb9121865D634A15023C7724B38F5c7Db6C88bB"
+      abi: BookOfLore
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - LoreAdded
+        - LoreStruck
+        - LoreUpdated
+        - NarrativeAdded
+        - NarrativeUpdated
+        - OwnershipTransferred
+      abis:
+        - name: BookOfLore
+          file: ./abis/BookOfLore.json
+      eventHandlers:
+        - event: LoreAdded(uint256,uint256)
+          handler: handleLoreAdded
+        - event: LoreStruck(uint256,uint256)
+          handler: handleLoreStruck
+        - event: LoreUpdated(uint256,uint256)
+          handler: handleLoreUpdated
+        - event: NarrativeAdded(uint256)
+          handler: handleNarrativeAdded
+        - event: NarrativeUpdated(uint256)
+          handler: handleNarrativeUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/mapping.ts

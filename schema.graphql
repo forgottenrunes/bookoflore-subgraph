@@ -1,0 +1,6 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  wizardId: BigInt! # uint256
+  loreIdx: BigInt! # uint256
+}
