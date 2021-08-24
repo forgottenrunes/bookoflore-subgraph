@@ -1,6 +1,12 @@
-type ExampleEntity @entity {
+type Lore @entity{
   id: ID!
-  count: BigInt!
-  wizardId: BigInt! # uint256
-  loreIdx: BigInt! # uint256
+  index: BigInt!
+  creator: Bytes!
+  assetAddress: Bytes!
+  tokenId: BigInt!
+  parentLoreId: BigInt!
+  nsfw: Boolean
+  struck: Boolean
+  loreMetadataURI: String
+  wizardId: BigInt!
 }

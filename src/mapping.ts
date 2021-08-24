@@ -8,64 +8,44 @@ import {
   NarrativeUpdated,
   OwnershipTransferred
 } from "../generated/BookOfLore/BookOfLore"
-import { ExampleEntity } from "../generated/schema"
+import { Lore } from "../generated/schema"
 
-export function handleLoreAdded(event: LoreAdded): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+export function handleLoreAddedUpdated<T>(event: T): void {
+  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+  let lore = new Lore(loreKey);
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
+  // Entity fields can be set using simple assignments
+  lore.wizardId = event.params.wizardId
+  lore.index = event.params.loreIdx
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
+  const contract = BookOfLore.bind(event.address)
+  const loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
 
-  // Entity fields can be set based on event parameters
-  entity.wizardId = event.params.wizardId
-  entity.loreIdx = event.params.loreIdx
+  lore.assetAddress = loreFromContract.assetAddress;
+  lore.loreMetadataURI = loreFromContract.loreMetadataURI;
+  lore.tokenId = loreFromContract.tokenId;
+  lore.creator = loreFromContract.creator;
+  lore.nsfw = loreFromContract.nsfw;
+  lore.parentLoreId = loreFromContract.parentLoreId;
+  lore.struck = loreFromContract.struck;
 
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.loreAt(...)
-  // - contract.loreFor(...)
-  // - contract.narrative(...)
-  // - contract.narrativeAt(...)
-  // - contract.numLore(...)
-  // - contract.numNarrative(...)
-  // - contract.owner(...)
-  // - contract.wizardLore(...)
-  // - contract.wizardsContractAddress(...)
+  lore.save()
 }
 
-export function handleLoreStruck(event: LoreStruck): void {}
+export function handleLoreStruck(event: LoreStruck): void {
+  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
 
-export function handleLoreUpdated(event: LoreUpdated): void {}
+  let lore = new Lore(loreKey);
 
-export function handleNarrativeAdded(event: NarrativeAdded): void {}
+  lore.struck = true;
 
-export function handleNarrativeUpdated(event: NarrativeUpdated): void {}
+  lore.save()
+}
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+
+// export function handleNarrativeAdded(event: NarrativeAdded): void {}
+//
+// export function handleNarrativeUpdated(event: NarrativeUpdated): void {}
+//
+// export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
