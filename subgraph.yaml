@@ -25,11 +25,11 @@ dataSources:
           file: ./abis/BookOfLore.json
       eventHandlers:
         - event: LoreAdded(uint256,uint256)
-          handler: handleLoreAddedUpdated
+          handler: handleLoreAdded
         - event: LoreStruck(uint256,uint256)
           handler: handleLoreStruck
         - event: LoreUpdated(uint256,uint256)
-          handler: handleLoreAddedUpdated
+          handler: handleLoreUpdated
 #        - event: NarrativeAdded(uint256)
 #          handler: handleNarrativeAdded
 #        - event: NarrativeUpdated(uint256)

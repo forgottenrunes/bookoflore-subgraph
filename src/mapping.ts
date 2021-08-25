@@ -10,7 +10,7 @@ import {
 } from "../generated/BookOfLore/BookOfLore"
 import { Lore } from "../generated/schema"
 
-export function handleLoreAddedUpdated<T>(event: T): void {
+export function handleLoreAdded(event: LoreAdded): void {
   const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
 
   let lore = new Lore(loreKey);
@@ -19,8 +19,8 @@ export function handleLoreAddedUpdated<T>(event: T): void {
   lore.wizardId = event.params.wizardId
   lore.index = event.params.loreIdx
 
-  const contract = BookOfLore.bind(event.address)
-  const loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
+  let contract = BookOfLore.bind(event.address)
+  let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
 
   lore.assetAddress = loreFromContract.assetAddress;
   lore.loreMetadataURI = loreFromContract.loreMetadataURI;
@@ -29,6 +29,21 @@ export function handleLoreAddedUpdated<T>(event: T): void {
   lore.nsfw = loreFromContract.nsfw;
   lore.parentLoreId = loreFromContract.parentLoreId;
   lore.struck = loreFromContract.struck;
+
+  lore.save()
+}
+
+export function handleLoreUpdated(event: LoreUpdated): void {
+  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
+
+  let lore = new Lore(loreKey);
+
+  let contract = BookOfLore.bind(event.address)
+  let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
+
+  // Only metadata and nsfw are updateable
+  lore.loreMetadataURI = loreFromContract.loreMetadataURI;
+  lore.nsfw = loreFromContract.nsfw;
 
   lore.save()
 }
