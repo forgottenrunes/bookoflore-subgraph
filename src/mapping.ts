@@ -1,61 +1,59 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import {BigInt} from "@graphprotocol/graph-ts"
 import {
-  BookOfLore,
-  LoreAdded,
-  LoreStruck,
-  LoreUpdated,
-  NarrativeAdded,
-  NarrativeUpdated,
-  OwnershipTransferred
+    BookOfLore,
+    LoreAdded,
+    LoreStruck,
+    LoreUpdated,
 } from "../generated/BookOfLore/BookOfLore"
-import { Lore } from "../generated/schema"
+import {Lore, Wizard} from "../generated/schema"
 
 export function handleLoreAdded(event: LoreAdded): void {
-  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
+    let loreKey = event.params.wizardId.toString() + "-" + event.params.loreIdx.toString();
 
-  let lore = new Lore(loreKey);
+    let lore = new Lore(loreKey);
+    let wizard = new Wizard(event.params.wizardId.toString());
+    wizard.save();
 
-  // Entity fields can be set using simple assignments
-  lore.wizardId = event.params.wizardId
-  lore.index = event.params.loreIdx
+    lore.wizard = wizard.id;
+    lore.index = event.params.loreIdx;
 
-  let contract = BookOfLore.bind(event.address)
-  let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
+    let contract = BookOfLore.bind(event.address)
+    let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
 
-  lore.assetAddress = loreFromContract.assetAddress;
-  lore.loreMetadataURI = loreFromContract.loreMetadataURI;
-  lore.tokenId = loreFromContract.tokenId;
-  lore.creator = loreFromContract.creator;
-  lore.nsfw = loreFromContract.nsfw;
-  lore.parentLoreId = loreFromContract.parentLoreId;
-  lore.struck = loreFromContract.struck;
+    lore.assetAddress = loreFromContract.assetAddress;
+    lore.loreMetadataURI = loreFromContract.loreMetadataURI;
+    lore.tokenId = loreFromContract.tokenId;
+    lore.creator = loreFromContract.creator;
+    lore.nsfw = loreFromContract.nsfw;
+    lore.parentLoreId = loreFromContract.parentLoreId;
+    lore.struck = loreFromContract.struck;
 
-  lore.save()
+    lore.save()
 }
 
 export function handleLoreUpdated(event: LoreUpdated): void {
-  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
+    const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
 
-  let lore = new Lore(loreKey);
+    let lore = new Lore(loreKey);
 
-  let contract = BookOfLore.bind(event.address)
-  let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
+    let contract = BookOfLore.bind(event.address)
+    let loreFromContract = contract.loreAt(event.params.wizardId, event.params.loreIdx, event.params.loreIdx)[0];
 
-  // Only metadata and nsfw are updateable
-  lore.loreMetadataURI = loreFromContract.loreMetadataURI;
-  lore.nsfw = loreFromContract.nsfw;
+    // Only metadata and nsfw are updateable
+    lore.loreMetadataURI = loreFromContract.loreMetadataURI;
+    lore.nsfw = loreFromContract.nsfw;
 
-  lore.save()
+    lore.save()
 }
 
 export function handleLoreStruck(event: LoreStruck): void {
-  const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
+    const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
 
-  let lore = new Lore(loreKey);
+    let lore = new Lore(loreKey);
 
-  lore.struck = true;
+    lore.struck = true;
 
-  lore.save()
+    lore.save()
 }
 
 

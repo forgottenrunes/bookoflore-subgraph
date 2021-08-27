@@ -1,3 +1,8 @@
+type Wizard @entity{
+  id: ID!
+  lore: [Lore!]! @derivedFrom(field: "wizard")
+}
+
 type Lore @entity{
   id: ID!
   index: BigInt!
@@ -8,5 +13,5 @@ type Lore @entity{
   nsfw: Boolean
   struck: Boolean
   loreMetadataURI: String
-  wizardId: BigInt!
+  wizard: Wizard!
 }
