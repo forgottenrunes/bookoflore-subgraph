@@ -28,6 +28,8 @@ export function handleLoreAdded(event: LoreAdded): void {
     lore.parentLoreId = loreFromContract.parentLoreId;
     lore.struck = loreFromContract.struck;
     lore.txHash = event.transaction.hash.toHex();
+    lore.createdAtTimestamp = event.block.timestamp;
+    lore.createdAtBlock = event.block.number;
 
     lore.save()
 }

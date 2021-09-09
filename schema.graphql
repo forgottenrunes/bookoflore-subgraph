@@ -15,4 +15,6 @@ type Lore @entity{
   loreMetadataURI: String!
   wizard: Wizard!
   txHash: String!
+  createdAtTimestamp: BigInt!
+  createdAtBlock: BigInt!
 }
