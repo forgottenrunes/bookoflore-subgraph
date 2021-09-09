@@ -27,6 +27,7 @@ export function handleLoreAdded(event: LoreAdded): void {
     lore.nsfw = loreFromContract.nsfw;
     lore.parentLoreId = loreFromContract.parentLoreId;
     lore.struck = loreFromContract.struck;
+    lore.txHash = event.transaction.hash.toHex();
 
     lore.save()
 }

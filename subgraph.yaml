@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xdEb9121865D634A15023C7724B38F5c7Db6C88bB"
       abi: BookOfLore
-      startBlock: 9056806
+      startBlock: 9256101
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

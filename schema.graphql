@@ -7,11 +7,12 @@ type Lore @entity{
   id: ID!
   index: BigInt!
   creator: Bytes!
-  assetAddress: Bytes!
-  tokenId: BigInt!
-  parentLoreId: BigInt!
+  assetAddress: Bytes
+  tokenId: BigInt
+  parentLoreId: BigInt
   nsfw: Boolean
   struck: Boolean
-  loreMetadataURI: String
+  loreMetadataURI: String!
   wizard: Wizard!
+  txHash: String!
 }
