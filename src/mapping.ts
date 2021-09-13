@@ -1,14 +1,18 @@
-import {BigInt} from "@graphprotocol/graph-ts"
+import {BigInt} from "@graphprotocol/graph-ts";
 import {
     BookOfLore,
     LoreAdded,
     LoreStruck,
     LoreUpdated,
-} from "../generated/BookOfLore/BookOfLore"
-import {Lore, Wizard} from "../generated/schema"
+} from "../generated/BookOfLore/BookOfLore";
+import {Lore, Wizard} from "../generated/schema";
+
+function getLoreKey(wizardId: BigInt, loreIndex: BigInt):string {
+    return wizardId.toString().padStart(4, "0") + "-" + loreIndex.toString().padStart(4, "0");
+}
 
 export function handleLoreAdded(event: LoreAdded): void {
-    let loreKey = event.params.wizardId.toString() + "-" + event.params.loreIdx.toString();
+    let loreKey = getLoreKey(event.params.wizardId, event.params.loreIdx);
 
     let lore = new Lore(loreKey);
     let wizard = new Wizard(event.params.wizardId.toString());
@@ -35,7 +39,7 @@ export function handleLoreAdded(event: LoreAdded): void {
 }
 
 export function handleLoreUpdated(event: LoreUpdated): void {
-    const loreKey = `${event.params.wizardId}-${event.params.loreIdx}`;
+    let loreKey = getLoreKey(event.params.wizardId, event.params.loreIdx);
 
     let lore = new Lore(loreKey);
 
