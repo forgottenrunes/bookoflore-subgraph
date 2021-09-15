@@ -5,15 +5,15 @@ type Wizard @entity{
 
 type Lore @entity{
   id: ID!
+  tokenContract: Bytes!
+  tokenId: BigInt!
   index: BigInt!
   creator: Bytes!
-  assetAddress: Bytes
-  tokenId: BigInt
   parentLoreId: BigInt
   nsfw: Boolean
   struck: Boolean
   loreMetadataURI: String!
-  wizard: Wizard!
+  wizard: Wizard
   txHash: String!
   createdAtTimestamp: BigInt!
   createdAtBlock: BigInt!

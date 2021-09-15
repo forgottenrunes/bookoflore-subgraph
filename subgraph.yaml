@@ -6,9 +6,9 @@ dataSources:
     name: BookOfLore
     network: rinkeby
     source:
-      address: "0xdEb9121865D634A15023C7724B38F5c7Db6C88bB"
+      address: "0xe6d5ed58B39aC190A5e347B87F018561036b56B9"
       abi: BookOfLore
-      startBlock: 9256101
+      startBlock: 9298577
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -17,23 +17,14 @@ dataSources:
         - LoreAdded
         - LoreStruck
         - LoreUpdated
-#        - NarrativeAdded
-#        - NarrativeUpdated
-#        - OwnershipTransferred
       abis:
         - name: BookOfLore
           file: ./abis/BookOfLore.json
       eventHandlers:
-        - event: LoreAdded(uint256,uint256)
+        - event: LoreAdded(address,uint256,uint256)
           handler: handleLoreAdded
-        - event: LoreStruck(uint256,uint256)
+        - event: LoreStruck(address,uint256,uint256)
           handler: handleLoreStruck
-        - event: LoreUpdated(uint256,uint256)
+        - event: LoreUpdated(address,uint256,uint256)
           handler: handleLoreUpdated
-#        - event: NarrativeAdded(uint256)
-#          handler: handleNarrativeAdded
-#        - event: NarrativeUpdated(uint256)
-#          handler: handleNarrativeUpdated
-#        - event: OwnershipTransferred(indexed address,indexed address)
-#          handler: handleOwnershipTransferred
       file: ./src/mapping.ts
