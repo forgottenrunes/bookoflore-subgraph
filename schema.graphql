@@ -1,9 +1,11 @@
-type Wizard @entity{
+type LoreToken @entity {
   id: ID!
-  lore: [Lore!]! @derivedFrom(field: "wizard")
+  tokenContract: Bytes!
+  tokenId: BigInt!
+  lore: [Lore!]! @derivedFrom(field: "loreToken")
 }
 
-type Lore @entity{
+type Lore @entity {
   id: ID!
   tokenContract: Bytes!
   tokenId: BigInt!
@@ -13,7 +15,7 @@ type Lore @entity{
   nsfw: Boolean
   struck: Boolean
   loreMetadataURI: String!
-  wizard: Wizard
+  loreToken: LoreToken
   txHash: String!
   createdAtTimestamp: BigInt!
   createdAtBlock: BigInt!

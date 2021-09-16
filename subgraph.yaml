@@ -6,9 +6,9 @@ dataSources:
     name: BookOfLore
     network: rinkeby
     source:
-      address: "0xe6d5ed58B39aC190A5e347B87F018561036b56B9"
+      address: "0x4218948D1Da133CF4B0758639a8C065Dbdccb2BB"
       abi: BookOfLore
-      startBlock: 9298577
+      startBlock: 13237324
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
